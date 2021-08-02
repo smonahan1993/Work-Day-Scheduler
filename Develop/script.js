@@ -7,7 +7,8 @@ var fourteen = document.querySelector(".fourteen");
 var fifteen = document.querySelector(".fifteen");
 var sixteen = document.querySelector(".sixteen");
 var seventeen = document.querySelector(".seventeen");
-
+var comment = document.querySelectorAll("textarea");
+var saveButton = document.querySelectorAll("button");
 
 
 var today = moment();
@@ -153,3 +154,37 @@ isFourteen ();
 isFifteen ();
 isSixteen ();
 isSeventeen ();
+
+function saveLast() {
+    // Save related form data as an object
+    var todoInput = {
+      comment: comment.value.trim()
+    };
+    // Use .setItem() to store object in storage and JSON.stringify to convert it as a string
+    localStorage.setItem("todoInput", JSON.stringify(todoInput));
+  }
+
+function renderLast() {
+    // Use JSON.parse() to convert text to JavaScript object
+    var lastTodo = JSON.parse(localStorage.getItem("todoInput"));
+    // Check if data is returned, if not exit out of the function
+    if (lastTodo !== null) {
+        document.querySelector("textarea").innerHTML = lastTodo.comment;
+    } else {
+      return;
+    }
+  }
+
+saveButton.addEventListener("click", function(event) {
+    event.preventDefault();
+    saveLast();
+    renderLast();
+
+  });
+
+  function init() {
+    // When the init function is executed, the code inside renderLastGrade function will also execute
+    renderLast();
+  }
+  init();
+
