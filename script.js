@@ -9,6 +9,34 @@ var sixteen = document.querySelector(".sixteen");
 var seventeen = document.querySelector(".seventeen");
 var comment = document.querySelectorAll("textarea");
 var saveButton = document.querySelectorAll("button");
+var timeBlocks = document.querySelectorAll(".time-block")
+var todos = JSON.parse(localStorage.getItem("todoInput")) || []
+
+for (let i = 0; i < timeBlocks.length; i++) {
+  console.log(timeBlocks[i]);
+  saveButton[i].addEventListener("click", function(event) {
+    event.preventDefault();
+    var todoInput = {
+        comment: comment[i].value.trim()
+      }; 
+      todos.push(todoInput);
+      // Use .setItem() to store object in storage and JSON.stringify to convert it as a string
+      localStorage.setItem("todoInput", JSON.stringify(todos));
+    // Use JSON.parse() to convert text to JavaScript object
+    var lastTodo = JSON.parse(localStorage.getItem("todoInput"));
+    // Check if data is returned, if not exit out of the function
+    console.log(lastTodo);
+    if (lastTodo[i] !== null) {
+        comment[i].innerHTML = lastTodo[i].comment;
+    } else {
+        return; 
+    }
+
+  });
+
+    
+
+}
 
 
 var today = moment();
@@ -155,36 +183,36 @@ isFifteen ();
 isSixteen ();
 isSeventeen ();
 
-function saveLast() {
-    // Save related form data as an object
-    var todoInput = {
-      comment: comment.value.trim()
-    };
-    // Use .setItem() to store object in storage and JSON.stringify to convert it as a string
-    localStorage.setItem("todoInput", JSON.stringify(todoInput));
-  }
+// function saveLast() {
+//     // Save related form data as an object
+//     var todoInput = {
+//       comment: comment[i].value.trim()
+//     };
+//     // Use .setItem() to store object in storage and JSON.stringify to convert it as a string
+//     localStorage.setItem("todoInput", JSON.stringify(todoInput));
+//   }
 
-function renderLast() {
-    // Use JSON.parse() to convert text to JavaScript object
-    var lastTodo = JSON.parse(localStorage.getItem("todoInput"));
-    // Check if data is returned, if not exit out of the function
-    if (lastTodo !== null) {
-        document.querySelector("textarea").innerHTML = lastTodo.comment;
-    } else {
-      return;
-    }
-  }
+// function renderLast() {
+//     // Use JSON.parse() to convert text to JavaScript object
+//     var lastTodo = JSON.parse(localStorage.getItem("todoInput"));
+//     // Check if data is returned, if not exit out of the function
+//     if (lastTodo !== null) {
+//         document.querySelector("textarea").innerHTML = lastTodo.comment;
+//     } else {
+//       return;
+//     }
+//   }
 
-saveButton.addEventListener("click", function(event) {
-    event.preventDefault();
-    saveLast();
-    renderLast();
+// saveButton[0].addEventListener("click", function(event) {
+//     event.preventDefault();
+//     saveLast();
+//     renderLast();
 
-  });
+//   });
 
-  function init() {
-    // When the init function is executed, the code inside renderLastGrade function will also execute
-    renderLast();
-  }
-  init();
+//   function init() {
+//     // When the init function is executed, the code inside renderLastGrade function will also execute
+//     renderLast();
+//   }
+//   init();
 
